@@ -2,8 +2,12 @@ A game about a frog wizard fighting bugs.
 Part 1 can be found here: 
 https://scratch.mit.edu/projects/897260065/
 
-
-
+Instructions:
+Use arrow keys to move and asdf to cast spells. 
+You can wield up to 4 spells per level.
+Spells will only work if you've unlocked them and 
+you have enough magic to cast them. Your magic will
+regenerate over time, but your health won't.
 
 
 ***For assignment grading***
