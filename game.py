@@ -1,6 +1,7 @@
 import pygame
 from pygame import mixer
 from level import Level
+from frog import Frog
 import os
 # keys from pygame
 from pygame.locals import (
@@ -46,6 +47,9 @@ class Game(pygame.Surface):
         mixer.init()
         mixer.music.load(os.path.join("sound", "Eclipse.mp3"))
         mixer.music.play()
+
+        #instantiate frog
+        frog = Frog()
    
         while(RUNNING):
 
@@ -63,3 +67,23 @@ class Game(pygame.Surface):
             #update display
             screen.blit(self.level.background, (0, 0))
             pygame.display.update()
+
+
+    def hop_right(self):
+        """make frog hop right 1 arbitrary unit tbd"""
+        frog.x_pos += 1
+        screen.blit(frog.hopping_up_right, (frog.x_pos, frog.y_pos))
+        frog.x_pos += 1
+        screen.blit(frog.hopping_down_right, (frog.x_pos, frog.y_pos))
+        frog.x_pos += 1
+        screen.blit(frog.sitting_right, (frog.x_pos, frog.y_pos))
+   
+    def hop_left(self):
+        """make frog hop left 1 arbitrary unit tbd"""
+        frog.x_pos -= 1
+        screen.blit(frog.hopping_up_left, (frog.x_pos, frog.y_pos))
+        frog.x_pos -= 1
+        screen.blit(frog.hopping_down_left, (frog.x_pos, frog.y_pos))
+        frog.x_pos -= 1
+        screen.blit(frog.sitting_left, (frog.x_pos, frog.y_pos))
+
