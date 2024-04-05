@@ -1,4 +1,5 @@
 import pygame
+from pygame import mixer
 from level import Level
 import os
 # keys from pygame
@@ -40,6 +41,11 @@ class Game(pygame.Surface):
         screen = pygame.display.set_mode(Game.SCREEN_DIMENSIONS)
         pygame.display.set_caption("Wizard Frog 2")
         pygame.display.set_icon(Game.ICON)
+
+        #start music
+        mixer.init()
+        mixer.music.load(os.path.join("sound", "Eclipse.mp3"))
+        mixer.music.play()
    
         while(RUNNING):
 

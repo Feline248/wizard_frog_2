@@ -25,6 +25,7 @@ class Wizard(pygame.sprite.Sprite):
     def hop_right(self):
         """make frog hop right 1 arbitrary unit tbd"""
         self.x_pos += 1
+        
 
     def hop_left(self):
         pass
