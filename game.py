@@ -33,13 +33,18 @@ class Game(pygame.Surface):
 
     def play(self):
         """handles actual gameplay"""
+
         RUNNING = True
+
+        #set up clock
+        self.clock = pygame.time.Clock()
+        self.clock.tick(3)      #set framerate
 
         #set level
         self.level = self.level1
 
         #set up display
-        screen = pygame.display.set_mode(Game.SCREEN_DIMENSIONS)
+        self.screen = pygame.display.set_mode(Game.SCREEN_DIMENSIONS)
         pygame.display.set_caption("Wizard Frog 2")
         pygame.display.set_icon(Game.ICON)
 
@@ -49,7 +54,9 @@ class Game(pygame.Surface):
         mixer.music.play()
 
         #instantiate frog
+        global frog
         frog = Frog()
+        
    
         while(RUNNING):
 
@@ -61,29 +68,47 @@ class Game(pygame.Surface):
                 
                 elif event.type == KEYDOWN and event.key == K_ESCAPE:
                     RUNNING = False
+
+            pressed_keys = pygame.key.get_pressed()
                 
             #gameplay
+            self.update(pressed_keys)
+
 
             #update display
-            screen.blit(self.level.background, (0, 0))
+            self.screen.blit(self.level.background, (0, 0))
             pygame.display.update()
 
 
     def hop_right(self):
         """make frog hop right 1 arbitrary unit tbd"""
         frog.x_pos += 1
-        screen.blit(frog.hopping_up_right, (frog.x_pos, frog.y_pos))
+        self.screen.blit(frog.hopping_up_right, (frog.x_pos, frog.y_pos))
         frog.x_pos += 1
-        screen.blit(frog.hopping_down_right, (frog.x_pos, frog.y_pos))
+        self.screen.blit(frog.hopping_down_right, (frog.x_pos, frog.y_pos))
         frog.x_pos += 1
-        screen.blit(frog.sitting_right, (frog.x_pos, frog.y_pos))
+        self.screen.blit(frog.sitting_right, (frog.x_pos, frog.y_pos))
+
    
     def hop_left(self):
         """make frog hop left 1 arbitrary unit tbd"""
+        print("Yes, this function is actually executing")
         frog.x_pos -= 1
-        screen.blit(frog.hopping_up_left, (frog.x_pos, frog.y_pos))
+        self.screen.blit(frog.hopping_up_left, (frog.x_pos, frog.y_pos))
         frog.x_pos -= 1
-        screen.blit(frog.hopping_down_left, (frog.x_pos, frog.y_pos))
+        self.screen.blit(frog.hopping_down_left, (frog.x_pos, frog.y_pos))
         frog.x_pos -= 1
-        screen.blit(frog.sitting_left, (frog.x_pos, frog.y_pos))
+        self.screen.blit(frog.sitting_left, (frog.x_pos, frog.y_pos))
+
+
+    def update(self, keys:dict):
+        print("Update function is executing")
+
+        if keys[K_RIGHT]:
+            self.hop_right()
+
+        if keys[K_LEFT]:
+            self.hop_left()
+            print("I swear I know what I'm doing")
+
 

@@ -1,0 +1,9 @@
+-make sprites show up on screen
+-have frog move
+-make enemy that can move randomly
+-make frog able to shoot spells
+-have spells damage enemy
+-have contact with enemy damge frog
+-make frogs and enemies die when health gets to 0
+-death screen
+-winning level
