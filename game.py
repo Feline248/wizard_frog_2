@@ -1,8 +1,10 @@
 import pygame
 from pygame import mixer
+from time import sleep
 from level import Level
 from frog import Frog
 import os
+
 # keys from pygame
 from pygame.locals import (
     RLEACCEL,
@@ -38,7 +40,6 @@ class Game(pygame.Surface):
 
         #set up clock
         self.clock = pygame.time.Clock()
-        self.clock.tick(3)      #set framerate
 
         #set level
         self.level = self.level1
@@ -60,6 +61,8 @@ class Game(pygame.Surface):
    
         while(RUNNING):
 
+            self.delta_time = self.clock.tick(60)      #set framerate
+
             #get input
             for event in pygame.event.get():
 
@@ -70,45 +73,42 @@ class Game(pygame.Surface):
                     RUNNING = False
 
             pressed_keys = pygame.key.get_pressed()
-                
-            #gameplay
-            self.update(pressed_keys)
-
 
             #update display
             self.screen.blit(self.level.background, (0, 0))
+            self.update(pressed_keys)
             pygame.display.update()
 
 
     def hop_right(self):
         """make frog hop right 1 arbitrary unit tbd"""
-        frog.x_pos += 1
+
+        frog.x_pos += 0.4 * self.delta_time
         self.screen.blit(frog.hopping_up_right, (frog.x_pos, frog.y_pos))
-        frog.x_pos += 1
+        frog.x_pos += 0.4 * self.delta_time
         self.screen.blit(frog.hopping_down_right, (frog.x_pos, frog.y_pos))
-        frog.x_pos += 1
+        frog.x_pos += 0.4 * self.delta_time
         self.screen.blit(frog.sitting_right, (frog.x_pos, frog.y_pos))
 
    
     def hop_left(self):
         """make frog hop left 1 arbitrary unit tbd"""
-        print("Yes, this function is actually executing")
-        frog.x_pos -= 1
+
+        frog.x_pos -= 0.4 * self.delta_time
         self.screen.blit(frog.hopping_up_left, (frog.x_pos, frog.y_pos))
-        frog.x_pos -= 1
+        frog.x_pos -= 0.4 * self.delta_time
         self.screen.blit(frog.hopping_down_left, (frog.x_pos, frog.y_pos))
-        frog.x_pos -= 1
+        frog.x_pos -= 0.4 * self.delta_time
         self.screen.blit(frog.sitting_left, (frog.x_pos, frog.y_pos))
 
 
     def update(self, keys:dict):
-        print("Update function is executing")
 
         if keys[K_RIGHT]:
             self.hop_right()
 
         if keys[K_LEFT]:
             self.hop_left()
-            print("I swear I know what I'm doing")
+
 
 
