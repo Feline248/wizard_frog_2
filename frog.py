@@ -13,7 +13,7 @@ class Frog(pygame.sprite.Sprite):
         self.y_pos = Frog.GROUND_Y_POS
 
     def set_sprites(self):
-        """Defines file paths to images"""
+        """Defines file paths to images and lists for animations"""
 
         self.base_path = os.path.join("graphics", "characters")
 
@@ -33,7 +33,8 @@ class Frog(pygame.sprite.Sprite):
         self.hopping_down_left = pygame.transform.scale(self.hopping_down_left, (Frog.SIZE, Frog.SIZE))
         self.death = pygame.transform.scale(self.death, (Frog.SIZE, Frog.SIZE))
 
-
+        self.right_hopping_animation = [self.sitting_right, self.hopping_up_right, self.hopping_down_right]
+        self.left_hopping_animation = [self.sitting_left, self.hopping_up_left, self.hopping_down_left]
 
 
     def cast_spell(self):

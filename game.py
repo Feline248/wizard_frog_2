@@ -38,8 +38,9 @@ class Game(pygame.Surface):
 
         RUNNING = True
 
-        #set up clock
+        #set up clock and delay
         self.clock = pygame.time.Clock()
+        self.animation_delay = 0
 
         #set level
         self.level = self.level1
@@ -57,7 +58,9 @@ class Game(pygame.Surface):
         #instantiate frog
         global frog
         frog = Frog()
-        
+
+        #reset variables
+        self.hopping_counter = 0
    
         while(RUNNING):
 
@@ -75,32 +78,42 @@ class Game(pygame.Surface):
             pressed_keys = pygame.key.get_pressed()
 
             #update display
+            
+            #show background
             self.screen.blit(self.level.background, (0, 0))
-            self.update(pressed_keys)
-            pygame.display.update()
+
+            #increment animation_delay counter
+            self.animation_delay += 1
+
+            #only update after a 200 loops
+            if self.animation_delay == 50:
+                self.animation_delay = 0
+                self.update(pressed_keys)
+                pygame.display.update()
 
 
     def hop_right(self):
         """make frog hop right 1 arbitrary unit tbd"""
 
-        frog.x_pos += 0.4 * self.delta_time
-        self.screen.blit(frog.hopping_up_right, (frog.x_pos, frog.y_pos))
-        frog.x_pos += 0.4 * self.delta_time
-        self.screen.blit(frog.hopping_down_right, (frog.x_pos, frog.y_pos))
-        frog.x_pos += 0.4 * self.delta_time
-        self.screen.blit(frog.sitting_right, (frog.x_pos, frog.y_pos))
+        self.hopping_counter += 1
 
+        if self.hopping_counter == len(frog.left_hopping_animation):
+                self.hopping_counter = 0
+
+        frog.x_pos += 0.4 * self.delta_time
+        self.screen.blit(frog.right_hopping_animation[self.hopping_counter], (frog.x_pos, frog.y_pos))
+   
    
     def hop_left(self):
         """make frog hop left 1 arbitrary unit tbd"""
 
-        frog.x_pos -= 0.4 * self.delta_time
-        self.screen.blit(frog.hopping_up_left, (frog.x_pos, frog.y_pos))
-        frog.x_pos -= 0.4 * self.delta_time
-        self.screen.blit(frog.hopping_down_left, (frog.x_pos, frog.y_pos))
-        frog.x_pos -= 0.4 * self.delta_time
-        self.screen.blit(frog.sitting_left, (frog.x_pos, frog.y_pos))
+        self.hopping_counter += 1
+        if self.hopping_counter == len(frog.left_hopping_animation):
+            self.hopping_counter = 0
 
+        frog.x_pos -= 0.4 * self.delta_time
+        self.screen.blit(frog.left_hopping_animation[self.hopping_counter], (frog.x_pos, frog.y_pos))
+  
 
     def update(self, keys:dict):
 
