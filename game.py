@@ -22,6 +22,7 @@ class Game(pygame.Surface):
 
     SCREEN_DIMENSIONS = (1250, 750)
     ICON = pygame.image.load(os.path.join(os.path.join("graphics", "other"), "frog_icon.jpg"))
+    SPEED_MULTIPLIER = 2
 
 
     def __init__(self):
@@ -85,8 +86,8 @@ class Game(pygame.Surface):
             #increment animation_delay counter
             self.animation_delay += 1
 
-            #only update after a 200 loops
-            if self.animation_delay == 50:
+            #only update after a set number of loops
+            if self.animation_delay == 7:
                 self.animation_delay = 0
                 self.update(pressed_keys)
                 pygame.display.update()
@@ -97,10 +98,11 @@ class Game(pygame.Surface):
 
         self.hopping_counter += 1
 
-        if self.hopping_counter == len(frog.left_hopping_animation):
+        if self.hopping_counter >= len(frog.left_hopping_animation):
                 self.hopping_counter = 0
 
-        frog.x_pos += 0.4 * self.delta_time
+        frog.x_pos += Game.SPEED_MULTIPLIER * self.delta_time
+
         self.screen.blit(frog.right_hopping_animation[self.hopping_counter], (frog.x_pos, frog.y_pos))
    
    
@@ -108,10 +110,12 @@ class Game(pygame.Surface):
         """make frog hop left 1 arbitrary unit tbd"""
 
         self.hopping_counter += 1
-        if self.hopping_counter == len(frog.left_hopping_animation):
+
+        if self.hopping_counter >= len(frog.left_hopping_animation):
             self.hopping_counter = 0
 
-        frog.x_pos -= 0.4 * self.delta_time
+        frog.x_pos -= Game.SPEED_MULTIPLIER * self.delta_time
+
         self.screen.blit(frog.left_hopping_animation[self.hopping_counter], (frog.x_pos, frog.y_pos))
   
 
@@ -120,8 +124,11 @@ class Game(pygame.Surface):
         if keys[K_RIGHT]:
             self.hop_right()
 
-        if keys[K_LEFT]:
+        elif keys[K_LEFT]:
             self.hop_left()
+
+        else:
+            self.screen.blit(frog.sitting_right, (frog.x_pos, frog.y_pos))
 
 
 
