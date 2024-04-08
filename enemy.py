@@ -1,5 +1,5 @@
 import os
-from pygame import *
+import pygame
 
 
 class Enemy(pygame.sprite.Sprite):

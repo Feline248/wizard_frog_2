@@ -37,6 +37,4 @@ class Frog(pygame.sprite.Sprite):
         self.left_hopping_animation = [self.sitting_left, self.hopping_up_left, self.hopping_down_left]
 
 
-    def cast_spell(self):
-        pass
 

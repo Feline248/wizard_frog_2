@@ -3,6 +3,7 @@ from pygame import mixer
 from time import sleep
 from level import Level
 from frog import Frog
+from spell import *
 import os
 
 # keys from pygame
@@ -57,11 +58,11 @@ class Game(pygame.Surface):
         mixer.music.play()
 
         #instantiate frog
-        global frog
-        frog = Frog()
+        self.frog = Frog()
 
         #reset variables
         self.hopping_counter = 0
+        self.spell = None
    
         while(RUNNING):
 
@@ -94,33 +95,63 @@ class Game(pygame.Surface):
 
 
     def hop_right(self):
-        """make frog hop right 1 arbitrary unit tbd"""
+        """make frog hop right 1 arbitrary unit"""
 
         self.hopping_counter += 1
 
-        if self.hopping_counter >= len(frog.left_hopping_animation):
+        if self.hopping_counter >= len(self.frog.left_hopping_animation):
                 self.hopping_counter = 0
 
-        frog.x_pos += Game.SPEED_MULTIPLIER * self.delta_time
+        self.frog.x_pos += Game.SPEED_MULTIPLIER * self.delta_time
 
-        self.screen.blit(frog.right_hopping_animation[self.hopping_counter], (frog.x_pos, frog.y_pos))
+        self.screen.blit(self.frog.right_hopping_animation[self.hopping_counter], (self.frog.x_pos, self.frog.y_pos))
    
    
     def hop_left(self):
-        """make frog hop left 1 arbitrary unit tbd"""
+        """make frog hop left 1 arbitrary unit"""
 
         self.hopping_counter += 1
 
-        if self.hopping_counter >= len(frog.left_hopping_animation):
+        if self.hopping_counter >= len(self.frog.left_hopping_animation):
             self.hopping_counter = 0
 
-        frog.x_pos -= Game.SPEED_MULTIPLIER * self.delta_time
+        self.frog.x_pos -= Game.SPEED_MULTIPLIER * self.delta_time
 
-        self.screen.blit(frog.left_hopping_animation[self.hopping_counter], (frog.x_pos, frog.y_pos))
+        self.screen.blit(self.frog.left_hopping_animation[self.hopping_counter], (self.frog.x_pos, self.frog.y_pos))
   
 
-    def update(self, keys:dict):
+    def cast_spell(self, spell_type:str):
+        """cast a spell"""
 
+        #instantiate spell
+        if spell_type == "bubbles":
+            self.spell = Bubbles()
+
+        # if spell_type == "fireball":
+        #     self.spell = Fireball()
+
+        # if spell_type == "shock":
+        #     self.spell = Shock()
+        
+
+        #get start and end locations for spell
+        self.current_enemy_x = self.level.enemy.x_pos
+        self.current_frog_x = self.frog.x_pos
+        self.current_enemy_y = self.level.enemy.y_pos
+        self.current_frog_y = self.frog.y_pos
+
+        self.spell_x = self.current_frog_x
+        self.spell_y = self.current_frog_y
+        
+        
+
+
+
+
+    def update(self, keys:dict):
+        """update based on which keys are pressed"""
+
+        #movement controls
         if keys[K_RIGHT]:
             self.hop_right()
 
@@ -128,7 +159,32 @@ class Game(pygame.Surface):
             self.hop_left()
 
         else:
-            self.screen.blit(frog.sitting_right, (frog.x_pos, frog.y_pos))
+            self.screen.blit(self.frog.sitting_right, (self.frog.x_pos, self.frog.y_pos))
+
+        #spell controls
+        if keys[K_SPACE]:
+            self.cast_spell("bubbles")
+
+        if self.spell != None:
+            #move spell towards enemy
+            if self.spell_x < self.current_enemy_x:
+                self.spell_x += Game.SPEED_MULTIPLIER * self.delta_time
+            if self.spell_x > self.current_enemy_x:
+                self.spell_x -= Game.SPEED_MULTIPLIER * self.delta_time
+            if self.spell_y < self.current_enemy_y:
+                self.spell_y += Game.SPEED_MULTIPLIER * self.delta_time
+            if self.spell_y > self.current_enemy_x:
+                self.spell_y -= Game.SPEED_MULTIPLIER * self.delta_time
+
+            #display spell on screen
+            self.screen.blit(self.spell.sprite, (self.spell_x, self.spell_y))
+
+            #delete spell and do damage when it hits enemy
+            if self.spell_x == self.level.enemy.x_pos or self.spell_y == self.level.enemy.y_pos:
+                self.spell.do_damage()
+                self.spell == None
+            
+             
 
 
 
