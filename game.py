@@ -29,11 +29,9 @@ class Game(pygame.Surface):
     def __init__(self):
         self.create_levels()
 
-
     def create_levels(self):
-        """instantiate 5 Level objects"""
-        self.level1 = Level(1, "swamp.png")
-
+        """instantiate 5 Level objects and enemies for each"""
+        self.level1 = Level(1, "swamp.png", Enemy(5, 1, "laser_butterfly.png"))
 
     def play(self):
         """handles actual gameplay"""
@@ -161,28 +159,26 @@ class Game(pygame.Surface):
         else:
             self.screen.blit(self.frog.sitting_right, (self.frog.x_pos, self.frog.y_pos))
 
+        #move enemy
+        self.level.enemy.move()
+        self.screen.blit(self.level.enemy.sprite, (self.level.enemy.x_pos, self.level.enemy.y_pos,))
+
         #spell controls
         if keys[K_SPACE]:
             self.cast_spell("bubbles")
 
         if self.spell != None:
-            #move spell towards enemy
-            if self.spell_x < self.current_enemy_x:
-                self.spell_x += Game.SPEED_MULTIPLIER * self.delta_time
-            if self.spell_x > self.current_enemy_x:
-                self.spell_x -= Game.SPEED_MULTIPLIER * self.delta_time
-            if self.spell_y < self.current_enemy_y:
-                self.spell_y += Game.SPEED_MULTIPLIER * self.delta_time
-            if self.spell_y > self.current_enemy_x:
-                self.spell_y -= Game.SPEED_MULTIPLIER * self.delta_time
+            
+
+            #delete spell and do damage when it hits enemy
+            if self.spell_x == self.level.enemy.x_pos or self.spell_y == self.level.enemy.y_pos:
+                self.spell.do_damage(self.level.enemy)
 
             #display spell on screen
             self.screen.blit(self.spell.sprite, (self.spell_x, self.spell_y))
 
-            #delete spell and do damage when it hits enemy
-            if self.spell_x == self.level.enemy.x_pos or self.spell_y == self.level.enemy.y_pos:
-                self.spell.do_damage()
-                self.spell == None
+            
+           
             
              
 
