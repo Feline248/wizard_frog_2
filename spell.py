@@ -1,5 +1,6 @@
 from abc import ABC
 from enemy import Enemy, LaserButterfly
+from constants import *
 import pygame
 import os
 
@@ -16,16 +17,10 @@ class Spell(ABC, pygame.sprite.Sprite):
         other.health -= self.damage
         self.sprite = None
 
-    def move(self, other:Enemy):
-        """move spell towards enemy"""
-        if self.spell_x < self.current_enemy_x:
-            self.spell_x += Game.SPEED_MULTIPLIER * self.delta_time
-        if self.spell_x > self.current_enemy_x:
-            self.spell_x -= Game.SPEED_MULTIPLIER * self.delta_time
-        if self.spell_y < self.current_enemy_y:
-            self.spell_y += Game.SPEED_MULTIPLIER * self.delta_time
-        if self.spell_y > self.current_enemy_x:
-            self.spell_y -= Game.SPEED_MULTIPLIER * self.delta_time
+    def set_coordinates(self, target:Enemy):
+        """set coordinates to be used for spell movement"""
+        self.current_enemy_x = target.x_pos
+        self.current_enemy_y = target.y_pos
 
 
 

@@ -11,7 +11,6 @@ import os
 class Game(pygame.Surface):
 
     ICON = pygame.image.load(os.path.join(os.path.join("graphics", "other"), "frog_icon.jpg"))
-    SPEED_MULTIPLIER = 2
 
     def __init__(self):
         self.create_levels()
@@ -87,7 +86,7 @@ class Game(pygame.Surface):
         if self.hopping_counter >= len(self.frog.left_hopping_animation):
                 self.hopping_counter = 0
 
-        self.frog.x_pos += Game.SPEED_MULTIPLIER * self.delta_time
+        self.frog.x_pos += SPEED_MULTIPLIER * self.delta_time
 
         self.screen.blit(self.frog.right_hopping_animation[self.hopping_counter], (self.frog.x_pos, self.frog.y_pos))
    
@@ -100,7 +99,7 @@ class Game(pygame.Surface):
         if self.hopping_counter >= len(self.frog.left_hopping_animation):
             self.hopping_counter = 0
 
-        self.frog.x_pos -= Game.SPEED_MULTIPLIER * self.delta_time
+        self.frog.x_pos -= SPEED_MULTIPLIER * self.delta_time
 
         self.screen.blit(self.frog.left_hopping_animation[self.hopping_counter], (self.frog.x_pos, self.frog.y_pos))
   
@@ -117,18 +116,23 @@ class Game(pygame.Surface):
 
         # if spell_type == "shock":
         #     self.spell = Shock()
-        
 
         #get start and end locations for spell
-        self.current_enemy_x = self.level.enemy.x_pos
-        self.current_frog_x = self.frog.x_pos
-        self.current_enemy_y = self.level.enemy.y_pos
-        self.current_frog_y = self.frog.y_pos
-
-        self.spell_x = self.current_frog_x
-        self.spell_y = self.current_frog_y
+        self.spell.set_coordinates(self.level.enemy)
+        self.spell.x_pos = self.frog.x_pos
+        self.spell.y_pos = self.frog.y_pos
         
         
+    def move_spell(self):
+        """move spell towards enemy"""
+        if self.spell.x_pos < self.spell.current_enemy_x:
+            self.spell.x_pos += SPEED_MULTIPLIER * self.delta_time
+        if self.spell.x_pos > self.spell.current_enemy_x:
+            self.spell.x_pos -= SPEED_MULTIPLIER * self.delta_time
+        if self.spell.y_pos < self.spell.current_enemy_y:
+            self.spell.y_pos += SPEED_MULTIPLIER * self.delta_time
+        if self.spell.y_pos > self.spell.current_enemy_y:
+            self.spell.y_pos -= SPEED_MULTIPLIER * self.delta_time
 
 
 
@@ -156,13 +160,14 @@ class Game(pygame.Surface):
 
         if self.spell != None:
             
+            self.move_spell()
 
             #delete spell and do damage when it hits enemy
-            if self.spell_x == self.level.enemy.x_pos or self.spell_y == self.level.enemy.y_pos:
+            if self.spell.x_pos == self.level.enemy.x_pos or self.spell.y_pos == self.level.enemy.y_pos:
                 self.spell.do_damage(self.level.enemy)
 
             #display spell on screen
-            self.screen.blit(self.spell.sprite, (self.spell_x, self.spell_y))
+            self.screen.blit(self.spell.sprite, (self.spell.x_pos, self.spell.y_pos))
 
             
            

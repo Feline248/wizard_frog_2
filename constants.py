@@ -16,3 +16,6 @@ from pygame.locals import (
 
 #dimensions of window
 SCREEN_DIMENSIONS = (1250, 750)
+
+#sets default movement speed of sprites
+SPEED_MULTIPLIER = 2
