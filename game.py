@@ -4,27 +4,14 @@ from time import sleep
 from level import Level
 from frog import Frog
 from spell import *
+from constants import *
 import os
 
-# keys from pygame
-from pygame.locals import (
-    RLEACCEL,
-    K_UP,
-    K_DOWN,
-    K_LEFT,
-    K_RIGHT,
-    K_ESCAPE,
-    KEYDOWN,
-    QUIT,
-    K_SPACE,
-)
 
 class Game(pygame.Surface):
 
-    SCREEN_DIMENSIONS = (1250, 750)
     ICON = pygame.image.load(os.path.join(os.path.join("graphics", "other"), "frog_icon.jpg"))
     SPEED_MULTIPLIER = 2
-
 
     def __init__(self):
         self.create_levels()
@@ -46,7 +33,7 @@ class Game(pygame.Surface):
         self.level = self.level1
 
         #set up display
-        self.screen = pygame.display.set_mode(Game.SCREEN_DIMENSIONS)
+        self.screen = pygame.display.set_mode(SCREEN_DIMENSIONS)
         pygame.display.set_caption("Wizard Frog 2")
         pygame.display.set_icon(Game.ICON)
 

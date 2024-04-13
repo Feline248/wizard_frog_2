@@ -18,14 +18,14 @@ class Spell(ABC, pygame.sprite.Sprite):
 
     def move(self, other:Enemy):
         """move spell towards enemy"""
-            if self.spell_x < self.current_enemy_x:
-                self.spell_x += Game.SPEED_MULTIPLIER * self.delta_time
-            if self.spell_x > self.current_enemy_x:
-                self.spell_x -= Game.SPEED_MULTIPLIER * self.delta_time
-            if self.spell_y < self.current_enemy_y:
-                self.spell_y += Game.SPEED_MULTIPLIER * self.delta_time
-            if self.spell_y > self.current_enemy_x:
-                self.spell_y -= Game.SPEED_MULTIPLIER * self.delta_time
+        if self.spell_x < self.current_enemy_x:
+            self.spell_x += Game.SPEED_MULTIPLIER * self.delta_time
+        if self.spell_x > self.current_enemy_x:
+            self.spell_x -= Game.SPEED_MULTIPLIER * self.delta_time
+        if self.spell_y < self.current_enemy_y:
+            self.spell_y += Game.SPEED_MULTIPLIER * self.delta_time
+        if self.spell_y > self.current_enemy_x:
+            self.spell_y -= Game.SPEED_MULTIPLIER * self.delta_time
 
 
 
