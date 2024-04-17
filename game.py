@@ -2,13 +2,14 @@
 #the Game class
 #runs the game logic and graphics
 
-import pygame
+
 from pygame import mixer
 from time import sleep
 from level import Level
 from frog import Frog
 from spell import *
 from constants import *
+from time import sleep
 import os
 
 
@@ -76,14 +77,15 @@ class Game(pygame.Surface):
             self.animation_delay += 1
 
             #only update after a set number of loops
-            if self.animation_delay == 7:
+            if self.animation_delay == 7 and self.level.enemy.health > 0:
                 self.animation_delay = 0
                 self.update(pressed_keys)
                 pygame.display.update()
 
             if self.level.enemy.health <= 0:
-                RUNNING = False
                 self.win_level()
+
+                
 
 
     def hop_right(self):
@@ -172,13 +174,20 @@ class Game(pygame.Surface):
             self.move_spell()
 
             #delete spell and do damage when it hits enemy
-            if self.spell.x_pos == self.level.enemy.x_pos or self.spell.y_pos == self.level.enemy.y_pos:
+            if self.spell.x_pos >= self.level.enemy.x_pos and self.spell.x_pos <= self.level.enemy.x_pos + self.level.enemy.size:
                 self.spell.do_damage(self.level.enemy)
+                self.screen.blit(TRANSPARENT, (self.spell.x_pos, self.spell.y_pos))
+                self.spell = None
+
+            elif self.spell.y_pos >= self.level.enemy.y_pos and self.spell.y_pos <= self.level.enemy.y_pos + self.level.enemy.size:
+                self.spell.do_damage(self.level.enemy)
+                self.screen.blit(TRANSPARENT, (self.spell.x_pos, self.spell.y_pos))
                 self.spell = None
 
             #delete spell when it reaches original target
             elif self.spell.x_pos == self.spell.current_enemy_x and self.spell.y_pos == self.spell.current_enemy_y:
                 self.spell = None
+                self.screen.blit(self.spell.sprite, (self.spell.x_pos, self.spell.y_pos))
 
             #display spell on screen
             else:
@@ -191,6 +200,8 @@ class Game(pygame.Surface):
         You Won! screen"""
         ending = pygame.image.load(os.path.join(os.path.join("graphics", "other"), "DemoCompletionScreen.png"))
         self.screen.blit(ending, (0, 0))
+        pygame.display.update()
+
 
 
             

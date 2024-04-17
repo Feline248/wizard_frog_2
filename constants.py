@@ -1,5 +1,7 @@
 #Rachel Dahl
 #List of constants to import into other files
+import pygame
+import os
 
 # keys from pygame
 from pygame.locals import (
@@ -22,3 +24,5 @@ SPEED_MULTIPLIER = 2
 
 #generic enemy size, can be changed in Enemy class as well
 ENEMY_SIZE = 100
+
+TRANSPARENT = pygame.image.load(os.path.join(os.path.join("graphics", "other"), "transparent.png"))

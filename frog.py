@@ -3,8 +3,9 @@
 # animating the player character
 
 
-import pygame
+
 import os
+from constants import *
 
 class Frog(pygame.sprite.Sprite):
     MAX_X = 1250

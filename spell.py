@@ -31,4 +31,4 @@ class Spell(ABC, pygame.sprite.Sprite):
 class Bubbles(Spell):
     
     def __init__(self):
-        Spell.__init__(self, 3, "bubbles.png")
+        Spell.__init__(self, 1, "bubbles.png")

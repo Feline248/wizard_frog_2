@@ -3,7 +3,6 @@
 #control enemies fought in-game
 
 import os
-import pygame
 from random import choice, randint
 from constants import *
 
