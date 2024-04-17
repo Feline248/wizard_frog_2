@@ -19,3 +19,6 @@ SCREEN_DIMENSIONS = (1250, 750)
 
 #sets default movement speed of sprites
 SPEED_MULTIPLIER = 2
+
+#generic enemy size, can be changed in Enemy class as well
+ENEMY_SIZE = 100

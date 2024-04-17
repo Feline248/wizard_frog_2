@@ -81,6 +81,10 @@ class Game(pygame.Surface):
                 self.update(pressed_keys)
                 pygame.display.update()
 
+            if self.level.enemy.health <= 0:
+                RUNNING = False
+                self.win_level()
+
 
     def hop_right(self):
         """make frog hop right 1 arbitrary unit"""
@@ -140,7 +144,6 @@ class Game(pygame.Surface):
 
 
 
-
     def update(self, keys:dict):
         """update based on which keys are pressed"""
 
@@ -171,9 +174,22 @@ class Game(pygame.Surface):
                 self.spell.do_damage(self.level.enemy)
                 self.spell = None
 
+            #delete spell when it reaches original target
+            elif self.spell.x_pos == self.spell.current_enemy_x and self.spell.y_pos == self.spell.current_enemy_y:
+                self.spell = None
+
             #display spell on screen
             else:
                 self.screen.blit(self.spell.sprite, (self.spell.x_pos, self.spell.y_pos))
+
+            
+    def win_level(self):
+        """Display cutscene and store after winning.
+        In the demo version, this function only shows the 
+        You Won! screen"""
+        ending = pygame.image.load(os.path.join(os.path.join("graphics", "other"), "DemoCompletionScreen.png"))
+        self.screen.blit(ending, (0, 0))
+
 
             
            
