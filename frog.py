@@ -1,3 +1,8 @@
+#Rachel Dahl
+#Frog class, responsible for 
+# animating the player character
+
+
 import pygame
 import os
 

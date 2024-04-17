@@ -1,3 +1,7 @@
+#Rachel Dahl
+#Spell class, controls projectiles 
+#launched by player
+
 from abc import ABC
 from enemy import Enemy, LaserButterfly
 from constants import *

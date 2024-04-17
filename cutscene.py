@@ -1,3 +1,7 @@
+#Rachel Dahl
+#controls cutscene animations
+
+
 import pygame
 from abc import ABC, abstractclassmethod
 

@@ -1,8 +1,9 @@
-from pygame import *
+#Rachel Dahl
+#Main file, run this to play the game
+
+import pygame
 from game import Game
 
-init()
+pygame.init()
 g = Game()
 g.play()
-while True:
-    pass

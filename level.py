@@ -1,3 +1,7 @@
+#Rachel Dahl
+#Level class, sets up each level
+#of the game
+
 import pygame
 from enemy import Enemy
 import os

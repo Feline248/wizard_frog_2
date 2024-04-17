@@ -1,3 +1,7 @@
+#Rachel Dahl
+#the Game class
+#runs the game logic and graphics
+
 import pygame
 from pygame import mixer
 from time import sleep
@@ -165,9 +169,11 @@ class Game(pygame.Surface):
             #delete spell and do damage when it hits enemy
             if self.spell.x_pos == self.level.enemy.x_pos or self.spell.y_pos == self.level.enemy.y_pos:
                 self.spell.do_damage(self.level.enemy)
+                self.spell = None
 
             #display spell on screen
-            self.screen.blit(self.spell.sprite, (self.spell.x_pos, self.spell.y_pos))
+            else:
+                self.screen.blit(self.spell.sprite, (self.spell.x_pos, self.spell.y_pos))
 
             
            

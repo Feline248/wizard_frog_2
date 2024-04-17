@@ -1,3 +1,7 @@
+#Rachel Dahl
+#Enemy and LaserButterfly classes
+#control enemies fought in-game
+
 import os
 import pygame
 from random import choice
@@ -11,13 +15,17 @@ class Enemy(pygame.sprite.Sprite):
     BASE_DISTANCE = 35
 
     def __init__(self, starting_health:int, speed_multiplier:float, sprite_file:str):
+        #base stats
         self.health = starting_health
         self.speed_multiplier = speed_multiplier
+        #graphics
         self.sprite_path = os.path.join(os.path.join("graphics", "characters"), sprite_file)
         self.sprite = pygame.image.load(self.sprite_path)
         self.sprite = pygame.transform.scale(self.sprite, (100, 100))
+        #location
         self.x_pos = 0
         self.y_pos = 0
+        #status effects
         self.cold = False
         self.paralyzed = False
         self.poisoned = False
