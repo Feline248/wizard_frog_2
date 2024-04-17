@@ -94,7 +94,8 @@ class Game(pygame.Surface):
         if self.hopping_counter >= len(self.frog.left_hopping_animation):
                 self.hopping_counter = 0
 
-        self.frog.x_pos += SPEED_MULTIPLIER * self.delta_time
+        if self.frog.x_pos < SCREEN_DIMENSIONS[0] - Frog.SIZE:
+            self.frog.x_pos += SPEED_MULTIPLIER * self.delta_time
 
         self.screen.blit(self.frog.right_hopping_animation[self.hopping_counter], (self.frog.x_pos, self.frog.y_pos))
    
@@ -107,7 +108,8 @@ class Game(pygame.Surface):
         if self.hopping_counter >= len(self.frog.left_hopping_animation):
             self.hopping_counter = 0
 
-        self.frog.x_pos -= SPEED_MULTIPLIER * self.delta_time
+        if self.frog.x_pos > 0:
+            self.frog.x_pos -= SPEED_MULTIPLIER * self.delta_time
 
         self.screen.blit(self.frog.left_hopping_animation[self.hopping_counter], (self.frog.x_pos, self.frog.y_pos))
   
