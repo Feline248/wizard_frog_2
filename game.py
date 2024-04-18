@@ -165,6 +165,12 @@ class Game(pygame.Surface):
         self.level.enemy.move()
         self.screen.blit(self.level.enemy.sprite, (self.level.enemy.x_pos, self.level.enemy.y_pos,))
 
+        #damage frog when it touches enemy
+        if self.level.enemy.x_pos <= self.frog.x_pos + self.frog.SIZE and self.level.enemy.x_pos >= self.frog.x_pos - self.frog.SIZE:
+            self.frog.health -= 1
+        if self.level.enemy.y_pos <= self.frog.y_pos + self.frog.SIZE and self.level.enemy.y_pos >= self.frog.y_pos - self.frog.SIZE:
+            self.frog.health -= 1
+
         #spell controls
         if keys[K_SPACE]:
             self.cast_spell("bubbles")
@@ -193,6 +199,11 @@ class Game(pygame.Surface):
             else:
                 self.screen.blit(self.spell.sprite, (self.spell.x_pos, self.spell.y_pos))
 
+        #show health bars
+        self.update_bar(self.frog.sitting_right, PALE_GREEN, (SCREEN_DIMENSIONS[0] - 150, 25), self.frog.health)
+        self.update_bar(self.frog.sitting_left, LAVENDER, (SCREEN_DIMENSIONS[0] - 150, 75), self.frog.magic)
+        self.update_bar(self.level.enemy.sprite, BLOOD_ORANGE, (150, 25), self.level.enemy.health)
+
             
     def win_level(self):
         """Display cutscene and store after winning.
@@ -202,9 +213,22 @@ class Game(pygame.Surface):
         self.screen.blit(ending, (0, 0))
         pygame.display.update()
 
+    def die(self):
+        """end game and display dead frog"""
+        #stop music
+        mixer.music.stop()
+        #hide sprites
+        self.screen.blit(TRANSPARENT, (self.spell.x_pos, self.spell.y_pos))
+        self.screen.blit(TRANSPARENT, (self.level.enemy.x_pos, self.level.enemy.y_pos))
+        #dead frog
+        self.screen.blit(self.frog.death, (self.frog.x_pos, self.frog.y_pos))
 
+    def update_bar(self, icon:pygame.Surface, color:tuple, top_left:tuple, value:int):
+        rect = pygame.Rect(top_left[0], top_left[1], value * BAR_MULTIPLIER, BAR_MULTIPLIER * 2)
+        pygame.draw.rect(self.screen, color, rect)
+        icon = pygame.transform.scale(icon, (ICON_SIZE, ICON_SIZE))
+        self.screen.blit(icon, (top_left[0] - ICON_SIZE, top_left[1]))
 
-            
            
             
              

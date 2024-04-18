@@ -25,4 +25,15 @@ SPEED_MULTIPLIER = 2
 #generic enemy size, can be changed in Enemy class as well
 ENEMY_SIZE = 100
 
+#used to set size of health bar displays
+BAR_MULTIPLIER = 20
+ICON_SIZE = 35
+
+#path to transparent image to hide sprites
 TRANSPARENT = pygame.image.load(os.path.join(os.path.join("graphics", "other"), "transparent.png"))
+
+#colors
+PALE_GREEN = (155, 207, 172)
+LAVENDER = (160, 132, 189)
+BLOOD_ORANGE = (112, 26, 0)
+

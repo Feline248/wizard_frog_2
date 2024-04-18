@@ -12,11 +12,15 @@ class Frog(pygame.sprite.Sprite):
     MIN_X = 0
     GROUND_Y_POS = 600
     SIZE = 125
+    MAX_HEALTH = 5
+    MAX_MAGIC = 20
     
     def __init__(self):
         self.set_sprites()
         self.x_pos = Frog.MAX_X / 2
         self.y_pos = Frog.GROUND_Y_POS
+        self.health = 5
+        self.magic = 15
 
     def set_sprites(self):
         """Defines file paths to images and lists for animations"""

@@ -32,3 +32,4 @@ class Bubbles(Spell):
     
     def __init__(self):
         Spell.__init__(self, 1, "bubbles.png")
+
