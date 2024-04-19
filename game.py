@@ -123,6 +123,10 @@ class Game(pygame.Surface):
             self.frog.x_pos -= SPEED_MULTIPLIER * self.delta_time
 
         self.screen.blit(self.frog.left_hopping_animation[self.hopping_counter], (self.frog.x_pos, self.frog.y_pos))
+
+
+    def jump(self):
+        """make frog jump up and down to dodge enemy"""
   
 
     def cast_spell(self, spell_type:str):
@@ -162,8 +166,8 @@ class Game(pygame.Surface):
         """update based on which keys are pressed"""
 
         #show health bars
-        self.update_bar(self.frog.sitting_right, PALE_GREEN, (SCREEN_DIMENSIONS[0] - 160, 25), HEALTH_BAR_MULTIPLIER, self.frog.health)
-        self.update_bar(self.frog.sitting_left, LAVENDER, (SCREEN_DIMENSIONS[0] - 160, 75), MAGIC_BAR_MULTIPLIER, self.frog.magic)
+        self.update_bar(self.frog.sitting_right, PALE_GREEN, (SCREEN_DIMENSIONS[0] - 175, 25), HEALTH_BAR_MULTIPLIER, self.frog.health)
+        self.update_bar(self.frog.sitting_left, LAVENDER, (SCREEN_DIMENSIONS[0] - 175, 75), MAGIC_BAR_MULTIPLIER, self.frog.magic)
         self.update_bar(self.level.enemy.sprite, BLOOD_ORANGE, (50, 25), HEALTH_BAR_MULTIPLIER, self.level.enemy.health)
 
         #movement controls
@@ -181,10 +185,9 @@ class Game(pygame.Surface):
         self.screen.blit(self.level.enemy.sprite, (self.level.enemy.x_pos, self.level.enemy.y_pos,))
 
         #damage frog when it touches enemy
-        if self.level.enemy.x_pos <= self.frog.x_pos + self.frog.SIZE and self.level.enemy.x_pos >= self.frog.x_pos - self.frog.SIZE:
+        if self.level.enemy.x_pos <= self.frog.x_pos + self.frog.SIZE and self.level.enemy.x_pos >= self.frog.x_pos - self.frog.SIZE and self.level.enemy.y_pos <= self.frog.y_pos + self.frog.SIZE and self.level.enemy.y_pos >= self.frog.y_pos - self.frog.SIZE:
             self.frog.health -= 1
-        if self.level.enemy.y_pos <= self.frog.y_pos + self.frog.SIZE and self.level.enemy.y_pos >= self.frog.y_pos - self.frog.SIZE:
-            self.frog.health -= 1
+
 
         #spell controls
         if keys[K_SPACE] or keys[K_a] and self.frog.magic >= Bubbles.COST:
@@ -195,12 +198,7 @@ class Game(pygame.Surface):
             self.move_spell()
 
             #delete spell and do damage when it hits enemy
-            if self.spell.x_pos >= self.level.enemy.x_pos and self.spell.x_pos <= self.level.enemy.x_pos + self.level.enemy.size:
-                self.spell.do_damage(self.level.enemy)
-                self.screen.blit(TRANSPARENT, (self.spell.x_pos, self.spell.y_pos))
-                self.spell = None
-
-            elif self.spell.y_pos >= self.level.enemy.y_pos and self.spell.y_pos <= self.level.enemy.y_pos + self.level.enemy.size:
+            if self.spell.x_pos >= self.level.enemy.x_pos and self.spell.x_pos <= self.level.enemy.x_pos + self.level.enemy.size and self.spell.y_pos >= self.level.enemy.y_pos and self.spell.y_pos <= self.level.enemy.y_pos + self.level.enemy.size:
                 self.spell.do_damage(self.level.enemy)
                 self.screen.blit(TRANSPARENT, (self.spell.x_pos, self.spell.y_pos))
                 self.spell = None
