@@ -87,14 +87,11 @@ class Game(pygame.Surface):
             self.animation_delay += 1
 
             #only update after a set number of loops
-            if self.animation_delay == 7 and self.level.enemy.health > 0:
+            if self.animation_delay == 7 and self.level.enemy.health > 0 and self.frog.health > 0:
                 self.animation_delay = 0
                 self.update(pressed_keys)
                 pygame.display.update()
-
-            
-
-                
+    
 
 
     def hop_right(self):
@@ -190,7 +187,7 @@ class Game(pygame.Surface):
 
 
         #spell controls
-        if keys[K_SPACE] or keys[K_a] and self.frog.magic >= Bubbles.COST:
+        if (keys[K_SPACE] or keys[K_a]) and self.frog.magic >= Bubbles.COST:
             self.cast_spell("bubbles")
 
         if self.spell != None:
@@ -206,7 +203,7 @@ class Game(pygame.Surface):
             #delete spell when it reaches original target
             elif self.spell.x_pos == self.spell.current_enemy_x and self.spell.y_pos == self.spell.current_enemy_y:
                 self.spell = None
-                self.screen.blit(self.spell.sprite, (self.spell.x_pos, self.spell.y_pos))
+                self.screen.blit(TRANSPARENT, (self.spell.x_pos, self.spell.y_pos))
 
             #display spell on screen
             else:
@@ -239,6 +236,9 @@ class Game(pygame.Surface):
 
         #dead frog
         self.screen.blit(self.frog.death, (self.frog.x_pos, self.frog.y_pos))
+
+        #update display
+        pygame.display.update()
 
 
     def update_bar(self, icon:pygame.Surface, color:tuple, top_left:tuple, multiplier:int, value:int):

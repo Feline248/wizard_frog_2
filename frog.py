@@ -10,8 +10,8 @@ from constants import *
 class Frog(pygame.sprite.Sprite):
     MAX_X = 1250
     MIN_X = 0
-    GROUND_Y_POS = 600
-    SIZE = 125
+    GROUND_Y_POS = 550
+    SIZE = 200
     MAX_HEALTH = 5
     MAX_MAGIC = 16
     

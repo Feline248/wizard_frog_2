@@ -23,7 +23,7 @@ SCREEN_DIMENSIONS = (1250, 750)
 SPEED_MULTIPLIER = 2
 
 #generic enemy size, can be changed in Enemy class as well
-ENEMY_SIZE = 100
+ENEMY_SIZE = 300
 
 #used to set size of health bar displays
 HEALTH_BAR_MULTIPLIER = 32
@@ -40,5 +40,5 @@ LAVENDER = (160, 132, 189)
 BLOOD_ORANGE = (112, 26, 0)
 
 #delay between increases in magic (ms)
-MAGIC_DELAY = 500
+MAGIC_DELAY = 100
 
