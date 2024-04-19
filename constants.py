@@ -13,7 +13,7 @@ from pygame.locals import (
     K_ESCAPE,
     KEYDOWN,
     QUIT,
-    K_SPACE,
+    K_SPACE,K_a
 )
 
 #dimensions of window
@@ -27,7 +27,7 @@ ENEMY_SIZE = 100
 
 #used to set size of health bar displays
 HEALTH_BAR_MULTIPLIER = 32
-MAGIC_BAR_MULTIPLIER = 8
+MAGIC_BAR_MULTIPLIER = 10
 BAR_THICKNESS = 40
 ICON_SIZE = 35
 
@@ -40,5 +40,5 @@ LAVENDER = (160, 132, 189)
 BLOOD_ORANGE = (112, 26, 0)
 
 #delay between increases in magic (ms)
-MAGIC_DELAY = 2000
+MAGIC_DELAY = 500
 

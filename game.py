@@ -142,6 +142,7 @@ class Game(pygame.Surface):
         self.spell.set_coordinates(self.level.enemy)
         self.spell.x_pos = self.frog.x_pos
         self.spell.y_pos = self.frog.y_pos
+        self.frog.magic -= self.spell.cost
         
         
     def move_spell(self):
@@ -186,7 +187,7 @@ class Game(pygame.Surface):
             self.frog.health -= 1
 
         #spell controls
-        if keys[K_SPACE]:
+        if keys[K_SPACE] or keys[K_a] and self.frog.magic >= Bubbles.COST:
             self.cast_spell("bubbles")
 
         if self.spell != None:

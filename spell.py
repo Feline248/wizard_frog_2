@@ -10,11 +10,12 @@ import os
 
 class Spell(ABC, pygame.sprite.Sprite):
 
-    def __init__(self, damage:int, sprite_file:str):
+    def __init__(self, damage:int, base_cost:int, sprite_file:str):
         self.damage = damage
         self.sprite_path = os.path.join(os.path.join("graphics", "spells"), sprite_file)
         self.sprite = pygame.image.load(self.sprite_path)
         self.sprite = pygame.transform.scale(self.sprite, (75,75))
+        self.cost = base_cost           #for now these variables are equal, but base cost will be multiplied by spell level eventually
 
     def do_damage(self, other:Enemy):
         """damages enemy and makes spell vanish upon contact"""
@@ -29,7 +30,9 @@ class Spell(ABC, pygame.sprite.Sprite):
 
 
 class Bubbles(Spell):
+
+    COST = 2
     
     def __init__(self):
-        Spell.__init__(self, 1, "bubbles.png")
+        Spell.__init__(self, 1, Bubbles.COST, "bubbles.png")
 

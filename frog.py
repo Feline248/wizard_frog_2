@@ -13,7 +13,7 @@ class Frog(pygame.sprite.Sprite):
     GROUND_Y_POS = 600
     SIZE = 125
     MAX_HEALTH = 5
-    MAX_MAGIC = 20
+    MAX_MAGIC = 16
     
     def __init__(self):
         self.set_sprites()
