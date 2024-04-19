@@ -73,6 +73,16 @@ class Game(pygame.Surface):
             #show background
             self.screen.blit(self.level.background, (0, 0))
 
+            if self.level.enemy.health <= 0:
+                self.win_level()
+
+            if self.frog.health <= 0:
+                self.die()
+
+            #increase magic
+            if pygame.time.get_ticks() % MAGIC_DELAY == 0 and self.frog.magic <= Frog.MAX_MAGIC:
+                self.frog.magic += 1
+
             #increment animation_delay counter
             self.animation_delay += 1
 
@@ -82,8 +92,7 @@ class Game(pygame.Surface):
                 self.update(pressed_keys)
                 pygame.display.update()
 
-            if self.level.enemy.health <= 0:
-                self.win_level()
+            
 
                 
 
@@ -151,6 +160,11 @@ class Game(pygame.Surface):
     def update(self, keys:dict):
         """update based on which keys are pressed"""
 
+        #show health bars
+        self.update_bar(self.frog.sitting_right, PALE_GREEN, (SCREEN_DIMENSIONS[0] - 160, 25), HEALTH_BAR_MULTIPLIER, self.frog.health)
+        self.update_bar(self.frog.sitting_left, LAVENDER, (SCREEN_DIMENSIONS[0] - 160, 75), MAGIC_BAR_MULTIPLIER, self.frog.magic)
+        self.update_bar(self.level.enemy.sprite, BLOOD_ORANGE, (50, 25), HEALTH_BAR_MULTIPLIER, self.level.enemy.health)
+
         #movement controls
         if keys[K_RIGHT]:
             self.hop_right()
@@ -199,32 +213,39 @@ class Game(pygame.Surface):
             else:
                 self.screen.blit(self.spell.sprite, (self.spell.x_pos, self.spell.y_pos))
 
-        #show health bars
-        self.update_bar(self.frog.sitting_right, PALE_GREEN, (SCREEN_DIMENSIONS[0] - 150, 25), self.frog.health)
-        self.update_bar(self.frog.sitting_left, LAVENDER, (SCREEN_DIMENSIONS[0] - 150, 75), self.frog.magic)
-        self.update_bar(self.level.enemy.sprite, BLOOD_ORANGE, (150, 25), self.level.enemy.health)
+        
 
             
     def win_level(self):
         """Display cutscene and store after winning.
         In the demo version, this function only shows the 
         You Won! screen"""
+
         ending = pygame.image.load(os.path.join(os.path.join("graphics", "other"), "DemoCompletionScreen.png"))
         self.screen.blit(ending, (0, 0))
         pygame.display.update()
 
+
     def die(self):
         """end game and display dead frog"""
+
         #stop music
         mixer.music.stop()
+
         #hide sprites
-        self.screen.blit(TRANSPARENT, (self.spell.x_pos, self.spell.y_pos))
         self.screen.blit(TRANSPARENT, (self.level.enemy.x_pos, self.level.enemy.y_pos))
+
+        if self.spell != None:
+            self.screen.blit(TRANSPARENT, (self.spell.x_pos, self.spell.y_pos))
+
         #dead frog
         self.screen.blit(self.frog.death, (self.frog.x_pos, self.frog.y_pos))
 
-    def update_bar(self, icon:pygame.Surface, color:tuple, top_left:tuple, value:int):
-        rect = pygame.Rect(top_left[0], top_left[1], value * BAR_MULTIPLIER, BAR_MULTIPLIER * 2)
+
+    def update_bar(self, icon:pygame.Surface, color:tuple, top_left:tuple, multiplier:int, value:int):
+        """update status bars such as health and magic levels"""
+
+        rect = pygame.Rect(top_left[0], top_left[1], value * multiplier, BAR_THICKNESS)
         pygame.draw.rect(self.screen, color, rect)
         icon = pygame.transform.scale(icon, (ICON_SIZE, ICON_SIZE))
         self.screen.blit(icon, (top_left[0] - ICON_SIZE, top_left[1]))
