@@ -19,6 +19,7 @@ class Game(pygame.Surface):
 
     def __init__(self):
         self.create_levels()
+        self.spells = []
 
     def create_levels(self):
         """instantiate 5 Level objects and enemies for each"""
@@ -131,7 +132,8 @@ class Game(pygame.Surface):
 
         #instantiate spell
         if spell_type == "bubbles":
-            self.spell = Bubbles()
+            self.spells.append(Bubbles(self.level.enemy, self.frog))
+            self.frog.magic -= Bubbles.COST
 
         # if spell_type == "fireball":
         #     self.spell = Fireball()
@@ -139,23 +141,7 @@ class Game(pygame.Surface):
         # if spell_type == "shock":
         #     self.spell = Shock()
 
-        #get start and end locations for spell
-        self.spell.set_coordinates(self.level.enemy)
-        self.spell.x_pos = self.frog.x_pos
-        self.spell.y_pos = self.frog.y_pos
-        self.frog.magic -= self.spell.cost
         
-        
-    def move_spell(self):
-        """move spell towards enemy"""
-        if self.spell.x_pos < self.spell.current_enemy_x:
-            self.spell.x_pos += SPEED_MULTIPLIER * self.delta_time
-        if self.spell.x_pos > self.spell.current_enemy_x:
-            self.spell.x_pos -= SPEED_MULTIPLIER * self.delta_time
-        if self.spell.y_pos < self.spell.current_enemy_y:
-            self.spell.y_pos += SPEED_MULTIPLIER * self.delta_time
-        if self.spell.y_pos > self.spell.current_enemy_y:
-            self.spell.y_pos -= SPEED_MULTIPLIER * self.delta_time
 
 
 
@@ -190,24 +176,24 @@ class Game(pygame.Surface):
         if (keys[K_SPACE] or keys[K_a]) and self.frog.magic >= Bubbles.COST:
             self.cast_spell("bubbles")
 
-        if self.spell != None:
+        for spell in self.spells:
             
-            self.move_spell()
+            spell.move_spell(self.delta_time)
 
             #delete spell and do damage when it hits enemy
-            if self.spell.x_pos >= self.level.enemy.x_pos and self.spell.x_pos <= self.level.enemy.x_pos + self.level.enemy.size and self.spell.y_pos >= self.level.enemy.y_pos and self.spell.y_pos <= self.level.enemy.y_pos + self.level.enemy.size:
-                self.spell.do_damage(self.level.enemy)
-                self.screen.blit(TRANSPARENT, (self.spell.x_pos, self.spell.y_pos))
-                self.spell = None
+            if spell.x_pos >= self.level.enemy.x_pos and spell.x_pos <= self.level.enemy.x_pos + self.level.enemy.size and spell.y_pos >= self.level.enemy.y_pos and spell.y_pos <= self.level.enemy.y_pos + self.level.enemy.size:
+                spell.do_damage(self.level.enemy)
+                self.screen.blit(TRANSPARENT, (spell.x_pos, spell.y_pos))
+                self.spells.remove(spell)
 
             #delete spell when it reaches original target
-            elif self.spell.x_pos == self.spell.current_enemy_x and self.spell.y_pos == self.spell.current_enemy_y:
-                self.spell = None
-                self.screen.blit(TRANSPARENT, (self.spell.x_pos, self.spell.y_pos))
+            elif spell.x_pos == spell.current_enemy_x and spell.y_pos == spell.current_enemy_y:
+                self.screen.blit(TRANSPARENT, (spell.x_pos, spell.y_pos))
+                self.spells.remove(spell)
 
             #display spell on screen
             else:
-                self.screen.blit(self.spell.sprite, (self.spell.x_pos, self.spell.y_pos))
+                self.screen.blit(spell.sprite, (spell.x_pos, spell.y_pos))
 
         
 
