@@ -10,14 +10,14 @@ from constants import *
 class Frog(pygame.sprite.Sprite):
     MAX_X = 1250
     MIN_X = 0
-    GROUND_Y_POS = 550
-    SIZE = 200
+    GROUND_Y_POS = 575
+    SIZE = 175
     MAX_HEALTH = 5
     MAX_MAGIC = 16
     
     def __init__(self):
         self.set_sprites()
-        self.x_pos = Frog.MAX_X / 2
+        self.x_pos = Frog.MAX_X // 2
         self.y_pos = Frog.GROUND_Y_POS
         self.health = 5
         self.magic = 15

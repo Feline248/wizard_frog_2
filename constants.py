@@ -23,7 +23,7 @@ SCREEN_DIMENSIONS = (1250, 750)
 SPEED_MULTIPLIER = 2
 
 #generic enemy size, can be changed in Enemy class as well
-ENEMY_SIZE = 300
+ENEMY_SIZE = 257
 
 #used to set size of health bar displays
 HEALTH_BAR_MULTIPLIER = 32
@@ -42,3 +42,8 @@ BLOOD_ORANGE = (112, 26, 0)
 #delay between increases in magic (ms)
 MAGIC_DELAY = 100
 
+#offscreen (hidden) position
+OFFSCREEN = (-100, -100)
+
+#range in which targets are recognized
+TARGET_TOLERANCE = 30

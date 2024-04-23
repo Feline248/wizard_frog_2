@@ -30,27 +30,27 @@ class Spell(ABC, pygame.sprite.Sprite):
 
     def set_coordinates(self, target:Enemy):
         """set coordinates to be used for spell movement"""
-        self.current_enemy_x = target.x_pos
-        self.current_enemy_y = target.y_pos
+        self.target_x = target.x_pos
+        self.target_y = target.y_pos
 
 
     def move_spell(self, delta_time):
         """move spell towards enemy"""
-        if self.x_pos < self.current_enemy_x:
+        if self.x_pos < self.target_x:
             self.x_pos += SPEED_MULTIPLIER * delta_time
-        if self.x_pos > self.current_enemy_x:
-            self.x_pos -= SPEED_MULTIPLIER * delta_time
-        if self.y_pos < self.current_enemy_y:
-            self.y_pos += SPEED_MULTIPLIER * delta_time
-        if self.y_pos > self.current_enemy_y:
+        if self.x_pos > self.target_x:
+          self.x_pos -= SPEED_MULTIPLIER * delta_time
+        if self.y_pos < self.target_y:
+          self.y_pos += SPEED_MULTIPLIER * delta_time
+        if self.y_pos > self.target_y:
             self.y_pos -= SPEED_MULTIPLIER * delta_time
-
+        
 
 
 class Bubbles(Spell):
 
     COST = 2
     
-    def __init__(self, target:Enemy|Frog, caster:Frog|Enemy):
+    def __init__(self, target:Enemy, caster:Frog):
         Spell.__init__(self, 1, Bubbles.COST, "bubbles.png", target, caster)
 

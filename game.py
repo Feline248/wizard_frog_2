@@ -23,7 +23,7 @@ class Game(pygame.Surface):
 
     def create_levels(self):
         """instantiate 5 Level objects and enemies for each"""
-        self.level1 = Level(1, "swamp.png", Enemy(5, 1, "laser_butterfly.png"))
+        self.level1 = Level(1, "swamp.png", Enemy(8, 1, "laser_butterfly.png"))
 
     def play(self):
         """handles actual gameplay"""
@@ -179,6 +179,7 @@ class Game(pygame.Surface):
         for spell in self.spells:
             
             spell.move_spell(self.delta_time)
+            print(spell.x_pos, spell.y_pos, spell.target_x, spell.target_y)
 
             #delete spell and do damage when it hits enemy
             if spell.x_pos >= self.level.enemy.x_pos and spell.x_pos <= self.level.enemy.x_pos + self.level.enemy.size and spell.y_pos >= self.level.enemy.y_pos and spell.y_pos <= self.level.enemy.y_pos + self.level.enemy.size:
@@ -187,15 +188,15 @@ class Game(pygame.Surface):
                 self.spells.remove(spell)
 
             #delete spell when it reaches original target
-            elif spell.x_pos == spell.current_enemy_x and spell.y_pos == spell.current_enemy_y:
+            elif abs(spell.y_pos - spell.target_y) <= TARGET_TOLERANCE and abs(spell.x_pos - spell.target_x) <= TARGET_TOLERANCE:   
+                print("this line is in fact executing")
+                spell.sprite = None
                 self.screen.blit(TRANSPARENT, (spell.x_pos, spell.y_pos))
                 self.spells.remove(spell)
 
             #display spell on screen
             else:
                 self.screen.blit(spell.sprite, (spell.x_pos, spell.y_pos))
-
-        
 
             
     def win_level(self):
